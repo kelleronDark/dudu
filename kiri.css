@@ -9,4 +9,7 @@ h1 {
 }
 .p3 {
     background: yellow;
+    text-align: center;
+    font-style: oblique;
+    text-shadow: 3px 3px 3px green;
 }
