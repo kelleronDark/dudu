@@ -6,6 +6,7 @@ class Advert(models.Model):
     title = models.CharField('Название', max_length=128)
     description = models.TextField('Описание')
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
+    update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
     auction = models.BooleanField('Торг', help_text='Отметьте, уместен ли торг')
 
@@ -22,6 +23,17 @@ class Advert(models.Model):
                 "<span style='color: green; font-weight: bold;'>Сегодня в {}</span>", created_time
             )
         return self.create_at.strftime('%d.%m.%y')
+
+    @admin.display(description='Дата обновления')
+    def updated_time(self):
+        from django.utils import timezone
+        from django.utils.html import format_html
+        if self.update_at.date() == timezone.now().date():
+            updated_time = self.update_at.time().strftime('%H:%M:%S')
+            return format_html(
+                "<span style='color: green; font-weight: bold;'>Сегодня в {}</span>", updated_time
+            )
+        return self.update_at.strftime('%d.%m.%y')
 
     class Meta:
         db_table = 'advert'
